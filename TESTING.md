@@ -1,6 +1,6 @@
 # Testing Guide
 
-This guide helps you test Tab Merge for Zendesk locally before publishing.
+This guide helps you test Merge for Zendesk locally before publishing.
 
 Examples below use `acme.zendesk.com` as a stand-in for your own Zendesk
 account — substitute your real subdomain when testing.
@@ -19,7 +19,7 @@ account — substitute your real subdomain when testing.
 
 - Extension icon appears in Chrome toolbar
 - Click icon → popup shows:
-  - "Tab Merge" header with a version badge
+  - "Merge for Zendesk" header
   - 4 checkboxes for merge types (all checked by default)
   - 1 checkbox for the tab highlight effect (unchecked by default)
   - Pause/Resume button in the header
@@ -43,7 +43,7 @@ account — substitute your real subdomain when testing.
 
 **Console log should show:**
 ```
-[Tab Merge for Zendesk] ticket on acme.zendesk.com (67890) → reused tab X, closed tab Y
+[Merge for Zendesk] ticket on acme.zendesk.com (67890) → reused tab X, closed tab Y
 ```
 
 ### Test 2: View Merging
@@ -63,7 +63,7 @@ account — substitute your real subdomain when testing.
 
 **Console log should show:**
 ```
-[Tab Merge for Zendesk] view on acme.zendesk.com (view) → reused tab X, closed tab Y
+[Merge for Zendesk] view on acme.zendesk.com (view) → reused tab X, closed tab Y
 ```
 
 ### Test 3: Search Merging
@@ -82,7 +82,7 @@ account — substitute your real subdomain when testing.
 
 **Console log should show:**
 ```
-[Tab Merge for Zendesk] search on acme.zendesk.com (search) → reused tab X, closed tab Y
+[Merge for Zendesk] search on acme.zendesk.com (search) → reused tab X, closed tab Y
 ```
 
 ### Test 4: General Agent Pages
@@ -101,7 +101,7 @@ account — substitute your real subdomain when testing.
 
 **Console log should show:**
 ```
-[Tab Merge for Zendesk] general on acme.zendesk.com (agent) → reused tab X, closed tab Y
+[Merge for Zendesk] general on acme.zendesk.com (agent) → reused tab X, closed tab Y
 ```
 
 ### Test 5: Selective Merging
@@ -254,7 +254,7 @@ account — substitute your real subdomain when testing.
 3. Click the status indicator
 
 **Expected:**
-- Status text reads "N tabs saved today"
+- Status text reads "N tabs today"
 - Clicking the indicator swaps to "N tabs all time"; clicking again swaps back
 - Reopening the popup always starts on "today"
 
@@ -292,7 +292,7 @@ account — substitute your real subdomain when testing.
 **Check:**
 1. Is the extension paused? (amber icon)
 2. Is the specific merge type enabled?
-3. Check console for `[Tab Merge for Zendesk]` logs
+3. Check console for `[Merge for Zendesk]` logs
 4. Verify the URL matches the expected pattern
 
 ### Issue: Settings Not Saving
@@ -321,7 +321,7 @@ account — substitute your real subdomain when testing.
 
 **Steps:**
 1. Open Chrome Task Manager (Shift+Esc)
-2. Find "Tab Merge for Zendesk"
+2. Find "Merge for Zendesk"
 3. Check memory usage
 
 **Expected:**
@@ -364,14 +364,14 @@ Before considering a release complete, verify:
 
 Check the browser console (F12) for:
 ```
-[Tab Merge for Zendesk] <urlType> on <host> (<itemId>) → reused tab X, closed tab Y
-[Tab Merge for Zendesk] SPA navigation failed for tab X, falling back to full navigation
+[Merge for Zendesk] <urlType> on <host> (<itemId>) → reused tab X, closed tab Y
+[Merge for Zendesk] SPA navigation failed for tab X, falling back to full navigation
 ```
 
 ### Inspect Extension
 
 1. Go to `chrome://extensions/`
-2. Find "Tab Merge for Zendesk"
+2. Find "Merge for Zendesk"
 3. Click "Inspect views: service worker"
 4. Console shows `background.js` logs
 

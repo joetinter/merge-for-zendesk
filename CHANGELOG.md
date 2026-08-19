@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Tab Merge for Zendesk will be documented in this file.
+All notable changes to Merge for Zendesk will be documented in this file.
 
 ---
 

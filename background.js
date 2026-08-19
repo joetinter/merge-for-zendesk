@@ -1,4 +1,4 @@
-// Zendesk Tab Merge — background.js
+// Merge for Zendesk — background.js
 //
 // Merges Zendesk agent tabs so that clicking a ticket, view, or search link
 // reuses your existing tab for that Zendesk instance instead of opening a
@@ -129,7 +129,7 @@ async function recordMerge() {
     tabsSavedAllTime++;
     await chrome.storage.local.set({ tabsSavedToday, tabsSavedAllTime });
   } catch (err) {
-    console.log('[Tab Merge for Zendesk] Could not record merge stat:', err.message);
+    console.log('[Merge for Zendesk] Could not record merge stat:', err.message);
   }
 }
 
@@ -311,7 +311,7 @@ async function showTabFocusFlash(tabId) {
       }
     });
   } catch (err) {
-    console.error('[Tab Merge for Zendesk] Flash failed:', err.message);
+    console.error('[Merge for Zendesk] Flash failed:', err.message);
   }
 }
 
@@ -479,11 +479,11 @@ async function tryReuseTab(tabId, url) {
     await chrome.windows.update(target.windowId, { focused: true });
 
     if (target.url !== url) {
-      console.log('[Tab Merge for Zendesk] Attempting SPA navigation for tab', targetId, 'to', url);
+      console.log('[Merge for Zendesk] Attempting SPA navigation for tab', targetId, 'to', url);
       const navigated = await navigateTabSpa(targetId, url);
 
       if (!navigated) {
-        console.log('[Tab Merge for Zendesk] SPA navigation failed, using full navigation');
+        console.log('[Merge for Zendesk] SPA navigation failed, using full navigation');
         await chrome.tabs.update(targetId, { url });
         await new Promise(resolve => setTimeout(resolve, 100));
       }
@@ -528,11 +528,11 @@ async function tryReuseTab(tabId, url) {
         await chrome.tabs.remove(tabId);
         await recordMerge();
         console.log(
-          `[Tab Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
+          `[Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
           ` → reused tab ${targetId}, closed tab ${tabId} (${reason})`
         );
       } catch (err) {
-        console.log(`[Tab Merge for Zendesk] Tab ${tabId} already closed`);
+        console.log(`[Merge for Zendesk] Tab ${tabId} already closed`);
       }
     } else {
       const previousUrl = tabPreviousUrls.get(tabId);
@@ -542,11 +542,11 @@ async function tryReuseTab(tabId, url) {
           await chrome.tabs.remove(tabId);
           await recordMerge();
           console.log(
-            `[Tab Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
+            `[Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
             ` → reused tab ${targetId}, closed tab ${tabId} (was new tab page)`
           );
         } catch (err) {
-          console.log(`[Tab Merge for Zendesk] Tab ${tabId} already closed`);
+          console.log(`[Merge for Zendesk] Tab ${tabId} already closed`);
         }
       } else if (previousUrl !== url) {
         const isAgentUrl = AGENT_URL_REGEX.test(previousUrl);
@@ -556,26 +556,26 @@ async function tryReuseTab(tabId, url) {
             await chrome.tabs.remove(tabId);
             await recordMerge();
             console.log(
-              `[Tab Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
+              `[Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
               ` → reused tab ${targetId}, closed tab ${tabId} (previous URL was agent URL, would cause loop)`
             );
           } catch (err) {
-            console.log(`[Tab Merge for Zendesk] Tab ${tabId} already closed`);
+            console.log(`[Merge for Zendesk] Tab ${tabId} already closed`);
           }
         } else {
           try {
             await chrome.tabs.update(tabId, { url: previousUrl });
             console.log(
-              `[Tab Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
+              `[Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
               ` → reused tab ${targetId}, restored tab ${tabId} to ${previousUrl} (${reason})`
             );
           } catch (err) {
-            console.log(`[Tab Merge for Zendesk] Tab ${tabId} no longer exists`);
+            console.log(`[Merge for Zendesk] Tab ${tabId} no longer exists`);
           }
         }
       } else {
         console.log(
-          `[Tab Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
+          `[Merge for Zendesk] ${urlType} on ${host} (${itemId})` +
           ` → reused tab ${targetId}, kept tab ${tabId} (${reason}, already on same URL)`
         );
       }
@@ -587,7 +587,7 @@ async function tryReuseTab(tabId, url) {
     }, INFLIGHT_GUARD_TIMEOUT_MS);
 
   } catch (err) {
-    console.error("[Tab Merge for Zendesk] Error in tryReuseTab:", err);
+    console.error("[Merge for Zendesk] Error in tryReuseTab:", err);
     inFlightTabReuses.delete(tabId);
     if (targetId !== null) inFlightTabReuses.delete(targetId);
   }

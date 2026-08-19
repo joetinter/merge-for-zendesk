@@ -1,4 +1,4 @@
-# Tab Merge for Zendesk
+# Merge for Zendesk
 
 A Chrome extension that automatically consolidates Zendesk tabs so you're never drowning in duplicates — no matter how many ticket, view, or search links you open throughout your day.
 
@@ -8,7 +8,7 @@ A Chrome extension that automatically consolidates Zendesk tabs so you're never 
 
 ## What It Does
 
-Tab Merge for Zendesk prevents tab clutter by routing all Zendesk agent links into a single tab per Zendesk instance. Click a ticket link from Slack, email, or anywhere else — instead of opening a new tab, it navigates your existing tab for that instance to the new page and closes the duplicate.
+Merge for Zendesk prevents tab clutter by routing all Zendesk agent links into a single tab per Zendesk instance. Click a ticket link from Slack, email, or anywhere else — instead of opening a new tab, it navigates your existing tab for that instance to the new page and closes the duplicate.
 
 Works with any Zendesk account — `yourcompany.zendesk.com` — with no setup required.
 
@@ -42,7 +42,7 @@ reference on what each one matches.
   - 🟢 Green background = Active and merging
   - 🟡 Amber background = Paused
   - ⚪ Gray background = Disabled
-- **Header status indicator** — Colored dot + text shows "On", "Paused", or "5 tabs saved today"
+- **Header status indicator** — Colored dot + text shows "On", "Paused", or "5 tabs today"
   - Click it to reveal the all-time total ("1,204 tabs all time"); click again for today's count
 - **Tab highlight effect** — Optional gradient pulse animation that confirms which tab was reused
   - **Off by default** — opt in via the "Tab highlight effect" toggle in settings
@@ -105,7 +105,7 @@ Check the extension icon color or open the popup:
 - **Icon: Green** → Active and merging tabs
 - **Icon: Amber** → Paused (temporarily disabled)
 - **Icon: Gray** → All merge types disabled
-- **Popup header** → Shows status dot + "On", "Paused", or "X tabs saved today" (click for the all-time total)
+- **Popup header** → Shows status dot + "On", "Paused", or "X tabs today" (click for the all-time total)
 
 ---
 
@@ -247,7 +247,7 @@ customer-tab-merge/
 **Tabs not merging?**
 - Check if the extension is paused (yellow icon)
 - Verify the relevant merge type is enabled in settings
-- Check the browser console for `[Tab Merge for Zendesk]` logs
+- Check the browser console for `[Merge for Zendesk]` logs
 
 **Settings not saving?**
 - Ensure Chrome sync is enabled

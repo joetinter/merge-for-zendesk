@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Tab Merge for Zendesk</title>
+  <title>Merge for Zendesk</title>
   <style>
     /* ══ Design tokens ══════════════════════════════════════════════════════
        One source of truth for color, space, radius and type. Every value below
@@ -123,11 +123,13 @@
       gap: var(--s-4);
     }
 
+    /* Never shrinks: the title is fixed-length, unlike the status text next
+       to it, which grows without bound as the tab count climbs. */
     .header-left {
       display: flex;
       align-items: baseline;
       gap: var(--s-3);
-      min-width: 0;
+      flex-shrink: 0;
     }
 
     header h1 {
@@ -452,10 +454,10 @@
 
   <header>
     <div class="header-left">
-      <h1>Tab Merge</h1>
+      <h1>Merge for Zendesk</h1>
     </div>
     <div class="header-right">
-      <button class="status-indicator" id="statusIndicator" title="Click for all-time total">
+      <button class="status-indicator" id="statusIndicator" title="Tabs merged today. Click for the all-time total.">
         <span class="status-dot" id="statusDot"></span>
         <span id="statusText">On</span>
       </button>

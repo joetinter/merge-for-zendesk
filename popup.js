@@ -158,7 +158,7 @@ function createChip(label, tab) {
       }
     } catch (err) {
       // Tab may have been closed - ignore silently
-      console.log(`[Tab Merge for Zendesk] Error switching tab:`, err);
+      console.log(`[Merge for Zendesk] Error switching tab:`, err);
     }
 
     window.close();
@@ -345,7 +345,7 @@ function updateStatusIndicator(isPaused, tabsSaved) {
       // Both views name their period so neither can be mistaken for the other.
       statusText.textContent = showAllTime
         ? `${count} ${unit} all time`
-        : `${count} ${unit} saved today`;
+        : `${count} ${unit} today`;
     } else {
       statusText.textContent = showAllTime ? "0 tabs all time" : "On";
     }
@@ -377,7 +377,9 @@ function renderStats(isPaused) {
   updateStatusIndicator(isPaused, count);
   statusIndicator.setAttribute(
     'title',
-    showAllTime ? "Click for today's count" : 'Click for all-time total'
+    showAllTime
+      ? "Tabs merged all time. Click for today's count."
+      : "Tabs merged today. Click for the all-time total."
   );
 }
 
