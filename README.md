@@ -18,6 +18,14 @@ Works with any Zendesk account — `yourcompany.zendesk.com` — with no setup r
 
 ## Key Features
 
+### 🚀 Quick Access
+- **Instance chips** — A compact row of chips, one per open Zendesk account
+  - Each chip is labeled by subdomain (e.g. "acme" for `acme.zendesk.com`)
+  - The most recently active instance is the primary (filled); the rest are outlined
+  - Only appears when you have Zendesk tabs open — nothing to show otherwise
+  - Wraps to a second line rather than growing the popup, however many are open
+  - Click a chip to jump straight to that tab, across any window
+
 ### 🎯 Granular Control
 Toggle merging for each page type independently:
 - **Tickets** — `/agent/tickets/*`
@@ -85,11 +93,12 @@ Works automatically out of the box on any Zendesk account. All merge types are e
 
 ### Customize Settings
 Click the extension icon to:
-1. Toggle individual merge types (2×2 grid: Tickets, Views, Search, Other) — hover
+1. Use the instance chips (if any Zendesk tabs are open) for quick access
+2. Toggle individual merge types (2×2 grid: Tickets, Views, Search, Other) — hover
    one for a quick explanation, or click **What's this?** for the full reference
-2. Toggle tab highlight animation on/off
-3. Pause/resume all merging with the header button
-4. Access documentation and feedback links in the footer
+3. Toggle tab highlight animation on/off
+4. Pause/resume all merging with the header button
+5. Access documentation and feedback links in the footer
 
 ### Visual Status
 Check the extension icon color or open the popup:
@@ -183,6 +192,9 @@ account and a customer's), each `*.zendesk.com` subdomain gets its own tab.
 Links for `acme.zendesk.com` merge with other `acme.zendesk.com` tabs; links
 for `widgets.zendesk.com` merge separately. Nothing needs to be configured —
 this is automatic.
+
+Use the Quick Access chip row in the popup to jump between instances — one
+chip appears per open account, labeled by subdomain.
 
 ---
 

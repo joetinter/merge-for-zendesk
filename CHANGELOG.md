@@ -13,6 +13,8 @@ Initial public release.
   independent toggle for each type
 - Works with any `*.zendesk.com` account — no primary/secondary instance
   distinction, no per-instance configuration
+- Quick Access chip row in the popup — one chip per open Zendesk account,
+  labeled by subdomain, for jumping straight to that tab
 - Cross-window matching — reuses a tab in any open window, not just the
   current one
 - Pinned-tab support as merge targets

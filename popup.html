@@ -268,6 +268,58 @@
       text-decoration: underline;
     }
 
+    /* ── Quick access ──
+       A wrapping row of instance chips, one per open Zendesk account. Stays
+       one or two lines however many instances are open, instead of a stack
+       of full-width buttons that pushes the actual settings below the fold.
+       Hidden entirely when no Zendesk tabs are open — there's no default
+       instance to offer. */
+    .instance-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-3);
+    }
+
+    .instance-chip {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      padding: var(--s-3) var(--s-5);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-pill);
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: var(--t-body);
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.12s, border-color 0.12s, color 0.12s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .instance-chip:hover {
+      background: var(--surface-hover);
+      border-color: var(--brand-accent);
+      color: var(--brand-accent);
+    }
+
+    /* The first (most recently active) instance carries the emphasis —
+       one accent per view. */
+    .instance-chip.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .instance-chip.primary:hover {
+      background: var(--brand-accent);
+      border-color: var(--brand-accent);
+      color: #ffffff;
+    }
+
     /* ── Options ── */
     .option-grid {
       display: flex;
@@ -434,6 +486,13 @@
   </header>
 
   <div class="content">
+
+    <div class="group" id="quickAccessGroup" hidden>
+      <div class="group-label" id="quickAccessLabel">Open</div>
+      <div class="instance-row" id="quickAccessContainer" role="group" aria-labelledby="quickAccessLabel">
+        <!-- Chips dynamically generated, one per open Zendesk account -->
+      </div>
+    </div>
 
     <div class="group">
       <div class="group-header">

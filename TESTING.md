@@ -177,6 +177,23 @@ account — substitute your real subdomain when testing.
 - `widgets.zendesk.com` tickets merge with each other
 - The two accounts never merge into each other's tab
 
+### Test 8b: Quick Access Chips
+
+**Setup:**
+- Tabs open for two different Zendesk accounts (from Test 8)
+
+**Steps:**
+1. Open the popup with no Zendesk tabs open — verify the "Open" group is absent
+2. Open one Zendesk tab, then reopen the popup
+3. Open a second Zendesk tab for a different account, then reopen the popup
+4. Click each chip
+
+**Expected:**
+- No "Open" group when no Zendesk tabs are open
+- One chip per open account, labeled by subdomain
+- The most recently active instance's chip is filled; the rest are outlined
+- Clicking a chip focuses that tab and its window, then closes the popup
+
 ### Test 9: Multi-Window Support
 
 **Setup:**
