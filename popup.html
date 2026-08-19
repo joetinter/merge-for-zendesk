@@ -137,11 +137,6 @@
       white-space: nowrap;
     }
 
-    .version {
-      font-size: var(--t-micro);
-      color: var(--header-fg-dim);
-      font-weight: 400;
-    }
 
     .header-right {
       display: flex;
@@ -458,7 +453,6 @@
   <header>
     <div class="header-left">
       <h1>Tab Merge</h1>
-      <span class="version" id="version"></span>
     </div>
     <div class="header-right">
       <button class="status-indicator" id="statusIndicator" title="Click for all-time total">
@@ -537,7 +531,7 @@
       <a href="https://github.com/joetinter/customer-tab-merge" target="_blank" rel="noopener noreferrer" class="footer-link">Docs</a>
       <a href="https://github.com/joetinter/customer-tab-merge/issues" target="_blank" rel="noopener noreferrer" class="footer-link">Feedback</a>
     </div>
-    <div class="footer-note">Built for Zendesk</div>
+    <div class="footer-note">Built for Zendesk | <span class="version" id="version"></span></div>
   </footer>
 
   <script src="popup.js"></script>
