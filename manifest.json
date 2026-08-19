@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Merge for Zendesk",
+  "version": "1.0.0",
+  "description": "Keep your Zendesk tabs tidy. Ticket, view, and search links reuse your existing tab instead of piling up duplicates.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Tab Merge for Zendesk Settings",
+    "default_icon": {
+      "16": "images/icon-active-16.png",
+      "19": "images/icon-active-19.png",
+      "38": "images/icon-active-38.png",
+      "48": "images/icon-active-48.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon-active-16.png",
+    "48": "images/icon-active-48.png",
+    "128": "images/icon-active-128.png"
+  },
+  "host_permissions": [
+    "https://*.zendesk.com/agent/*"
+  ]
+}

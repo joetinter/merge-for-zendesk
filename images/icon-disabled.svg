@@ -1,0 +1,12 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Disabled state - gray icon with X -->
+  <rect width="128" height="128" rx="24" fill="#374151"/>
+
+  <!-- Two tabs in gray -->
+  <rect x="20" y="35" width="35" height="45" rx="4" fill="#6b7280" opacity="0.6"/>
+  <rect x="73" y="35" width="35" height="45" rx="4" fill="#6b7280" opacity="0.6"/>
+
+  <!-- X mark showing disabled -->
+  <path d="M 50 95 L 78 115" stroke="#9ca3af" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 78 95 L 50 115" stroke="#9ca3af" stroke-width="6" stroke-linecap="round"/>
+</svg>

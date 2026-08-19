@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Active state - green icon with merge arrows -->
+  <rect width="128" height="128" rx="24" fill="#03363d"/>
+
+  <!-- Two tabs merging into one -->
+  <rect x="20" y="35" width="35" height="45" rx="4" fill="#059669" opacity="0.8"/>
+  <rect x="73" y="35" width="35" height="45" rx="4" fill="#059669" opacity="0.8"/>
+
+  <!-- Arrow pointing to merged tab -->
+  <path d="M 40 85 L 64 95 L 88 85" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 64 95 L 64 103" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Merged tab at bottom -->
+  <rect x="38" y="103" width="52" height="10" rx="2" fill="#10b981"/>
+</svg>

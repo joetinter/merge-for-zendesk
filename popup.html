@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tab Merge for Zendesk</title>
+  <style>
+    /* ══ Design tokens ══════════════════════════════════════════════════════
+       One source of truth for color, space, radius and type. Every value below
+       is referenced by variable so light/dark stay in sync and the spacing
+       scale can't drift back into per-rule magic numbers.
+
+       Text colors are chosen to clear WCAG AA (4.5:1) on their own surface —
+       --text-muted is the floor, do not introduce anything lighter for text.
+    ═════════════════════════════════════════════════════════════════════════ */
+    :root {
+      /* Brand */
+      --brand: #03363d;
+      --brand-accent: #037d8e;
+
+      /* Surfaces */
+      --header-bg: #03363d;
+      --header-fg: #ffffff;
+      --header-fg-dim: rgba(255, 255, 255, 0.68);
+      --header-control-bg: rgba(255, 255, 255, 0.1);
+      --header-control-border: rgba(255, 255, 255, 0.32);
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --surface-hover: #f9fafb;
+      --surface-sunken: #f3f4f6;
+
+      /* Lines */
+      --border: #e5e7eb;
+      --border-strong: #d1d5db;
+
+      /* Text — all AA on --surface */
+      --text: #1f2937;          /* 12.6:1 */
+      --text-secondary: #4b5563;/*  7.6:1 */
+      --text-muted: #6b7280;    /*  4.8:1 — lightest permitted for text */
+      /* The footer sits on --surface-sunken, not white, so --text-muted would
+         land at 4.39:1 there. This is the same hue, one step darker. */
+      --text-on-sunken: #616a78; /*  5.3:1 on --surface-sunken */
+
+      /* Semantic */
+      --on: #10b981;
+      --on-ring: rgba(16, 185, 129, 0.2);
+      --paused: #f59e0b;
+      --paused-ring: rgba(245, 158, 11, 0.2);
+      --success-fg: #047857;    /*  4.8:1 */
+      --focus: #037d8e;
+
+      /* Space scale — 4px base */
+      --s-1: 2px;
+      --s-2: 4px;
+      --s-3: 6px;
+      --s-4: 8px;
+      --s-5: 12px;
+      --s-6: 16px;
+
+      /* Radius scale */
+      --r-sm: 4px;
+      --r-md: 6px;
+      --r-lg: 8px;
+      --r-pill: 999px;
+
+      /* Type scale */
+      --t-micro: 10px;   /* labels, hints, footer */
+      --t-body: 12px;    /* option labels, buttons */
+      --t-title: 13px;   /* app name */
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --header-bg: #02272c;
+        --header-control-border: rgba(255, 255, 255, 0.28);
+        --bg: #171f21;
+        --surface: #1e282a;
+        --surface-hover: #253133;
+        --surface-sunken: #141b1d;
+
+        --border: #33413f;
+        --border-strong: #47585a;
+
+        --text: #e8edee;          /* 12.4:1 on --surface */
+        --text-secondary: #c2cdd0;/*  8.7:1 */
+        --text-muted: #9dabae;    /*  5.4:1 — lightest permitted for text */
+        --text-on-sunken: #9dabae;/*  6.2:1 on the darker sunken surface */
+
+        /* The light-mode brand navy is nearly indistinguishable from the dark
+           background, so the primary chip uses the accent teal instead. */
+        --brand: #0e6b7a;
+        --brand-accent: #3ab5c9;
+        --success-fg: #34d399;
+        --focus: #3ab5c9;
+      }
+
+      /* Dark-mode form controls: without this, unchecked boxes render as bright
+         white squares that outshine everything else on the panel. */
+      :root {
+        color-scheme: dark;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: var(--t-body);
+      color: var(--text);
+      background: var(--bg);
+      width: 300px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--header-bg);
+      color: var(--header-fg);
+      padding: var(--s-4) var(--s-5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-4);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: baseline;
+      gap: var(--s-3);
+      min-width: 0;
+    }
+
+    header h1 {
+      font-size: var(--t-title);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .version {
+      font-size: var(--t-micro);
+      color: var(--header-fg-dim);
+      font-weight: 400;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      flex-shrink: 0;
+    }
+
+    /* Clickable: toggles today's count vs the all-time total */
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      font-size: var(--t-micro);
+      font-weight: 500;
+      border: none;
+      background: none;
+      padding: var(--s-1) var(--s-2);
+      margin-right: calc(-1 * var(--s-2));
+      color: inherit;
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: var(--r-sm);
+      transition: background-color 0.12s;
+      white-space: nowrap;
+    }
+
+    .status-indicator:hover {
+      background: var(--header-control-bg);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: var(--r-pill);
+      background: var(--on);
+      box-shadow: 0 0 0 2px var(--on-ring);
+      flex-shrink: 0;
+    }
+
+    .status-dot.paused {
+      background: var(--paused);
+      box-shadow: 0 0 0 2px var(--paused-ring);
+    }
+
+    .pause-button-header {
+      width: 24px;
+      height: 24px;
+      border: 1.5px solid var(--header-control-border);
+      border-radius: var(--r-md);
+      background: var(--header-control-bg);
+      color: var(--header-fg);
+      font-size: 11px;
+      cursor: pointer;
+      transition: background-color 0.12s, border-color 0.12s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .pause-button-header:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.55);
+    }
+
+    .pause-button-header.paused {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(245, 158, 11, 0.6);
+    }
+
+    .pause-button-header.paused:hover {
+      background: rgba(245, 158, 11, 0.32);
+    }
+
+    /* ── Content ── */
+    .content {
+      padding: var(--s-5);
+    }
+
+    /* Groups own their own bottom spacing so the rhythm between sections is
+       larger than the rhythm inside them. */
+    .group {
+      margin-bottom: var(--s-6);
+    }
+
+    .group:last-child {
+      margin-bottom: 0;
+    }
+
+    .group-label {
+      font-size: var(--t-micro);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: var(--s-3);
+    }
+
+    /* A group label paired with a help link on the same baseline */
+    .group-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--s-4);
+      margin-bottom: var(--s-3);
+    }
+
+    .group-header .group-label {
+      margin-bottom: 0;
+    }
+
+    .group-help {
+      font-size: var(--t-micro);
+      font-weight: 500;
+      color: var(--brand-accent);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .group-help:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Options ── */
+    .option-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+    }
+
+    .option-grid.two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-2);
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: var(--s-4);
+      padding: var(--s-4) var(--s-4);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background-color 0.1s, border-color 0.1s;
+      background: var(--surface);
+    }
+
+    .option-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-strong);
+    }
+
+    .option-item input[type="checkbox"] {
+      accent-color: var(--brand-accent);
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .option-item label {
+      cursor: pointer;
+      font-size: var(--t-body);
+      font-weight: 500;
+      color: var(--text-secondary);
+      user-select: none;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Stacks the option name above a hint line inside an option row */
+    .option-item label.option-text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-1);
+    }
+
+    .option-hint {
+      font-size: var(--t-micro);
+      font-weight: 400;
+      line-height: 1.35;
+      color: var(--text-muted);
+      user-select: none;
+      cursor: pointer;
+    }
+
+    /* ── Saved status ── */
+    .saved-status {
+      font-size: var(--t-micro);
+      color: transparent;
+      font-weight: 600;
+      transition: color 0.15s;
+      text-align: center;
+      height: 14px;
+      margin-top: var(--s-4);
+    }
+
+    .saved-status.visible {
+      color: var(--success-fg);
+    }
+
+    /* ── Paused state ──
+       Dims everything merging-related, including the group labels, so the
+       whole panel reads as inactive rather than just the checkbox rows. */
+    body.paused .group {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface-sunken);
+      padding: var(--s-4) var(--s-5);
+      font-size: var(--t-micro);
+      color: var(--text-on-sunken);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-4);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--s-5);
+      align-items: center;
+    }
+
+    .footer-link {
+      color: var(--text-on-sunken);
+      text-decoration: none;
+      transition: color 0.1s;
+    }
+
+    .footer-link:hover {
+      color: var(--brand-accent);
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      color: var(--text-on-sunken);
+      white-space: nowrap;
+    }
+
+    /* ── Focus ──
+       Single consistent focus treatment for every interactive element. */
+    .status-indicator:focus-visible,
+    .pause-button-header:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.75);
+      outline-offset: 2px;
+    }
+
+    .option-item input[type="checkbox"]:focus-visible,
+    .group-help:focus-visible,
+    .footer-link:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>Tab Merge</h1>
+      <span class="version" id="version"></span>
+    </div>
+    <div class="header-right">
+      <button class="status-indicator" id="statusIndicator" title="Click for all-time total">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">On</span>
+      </button>
+      <button class="pause-button-header" id="pauseButton" aria-label="Pause or resume tab merging" title="Pause merging">
+        <span id="pauseIcon">⏸</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <div class="group">
+      <div class="group-header">
+        <span class="group-label" id="mergeTypesLabel">Merge types</span>
+        <a class="group-help"
+           href="https://github.com/joetinter/customer-tab-merge#merge-types-explained"
+           target="_blank" rel="noopener noreferrer"
+           title="What do these mean? Opens the Merge Types reference"
+           aria-label="What do these mean? Opens the Merge Types reference in a new tab">What's this?</a>
+      </div>
+      <!-- title lives on .option-item so the tooltip triggers anywhere on the
+           row, not just over the 14px checkbox. -->
+      <div class="option-grid two-column" role="group" aria-labelledby="mergeTypesLabel">
+        <div class="option-item"
+             title="Ticket pages — /agent/tickets/{id} and sub-paths like /events.&#10;See “What’s this?” for the full reference.">
+          <input type="checkbox" id="mergeTickets">
+          <label for="mergeTickets">Tickets</label>
+        </div>
+        <div class="option-item"
+             title="Saved views and filters — /agent/filters/*, your queues.&#10;See “What’s this?” for the full reference.">
+          <input type="checkbox" id="mergeViews">
+          <label for="mergeViews">Views</label>
+        </div>
+        <div class="option-item"
+             title="Search results — /agent/search/*, including saved searches.&#10;See “What’s this?” for the full reference.">
+          <input type="checkbox" id="mergeSearch">
+          <label for="mergeSearch">Search</label>
+        </div>
+        <div class="option-item"
+             title="Everything else under /agent/ — dashboard, reporting, org and user records.&#10;Chat, Talk, Admin and print pages never merge.&#10;See “What’s this?” for the full reference.">
+          <input type="checkbox" id="mergeGeneral">
+          <label for="mergeGeneral">Other</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label" id="optionsLabel">Options</div>
+      <div class="option-grid" role="group" aria-labelledby="optionsLabel">
+        <div class="option-item">
+          <input type="checkbox" id="tabHighlight">
+          <label for="tabHighlight" class="option-text">
+            <span>Tab highlight effect</span>
+            <span class="option-hint">Recommended for multi-monitor setups</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="saved-status" id="status" role="status" aria-live="polite">Saved ✓</div>
+
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/joetinter/customer-tab-merge" target="_blank" rel="noopener noreferrer" class="footer-link">Docs</a>
+      <a href="https://github.com/joetinter/customer-tab-merge/issues" target="_blank" rel="noopener noreferrer" class="footer-link">Feedback</a>
+    </div>
+    <div class="footer-note">Works with any Zendesk instance</div>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
