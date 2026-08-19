@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tab Merge for Zendesk",
-  "version": "1.0.0",
+  "version": "1",
   "description": "Keep your Zendesk tabs tidy. Ticket, view, and search links reuse your existing tab instead of piling up duplicates.",
   "permissions": [
     "tabs",
