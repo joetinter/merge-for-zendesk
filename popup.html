@@ -273,7 +273,8 @@
        one or two lines however many instances are open, instead of a stack
        of full-width buttons that pushes the actual settings below the fold.
        Hidden entirely when no Zendesk tabs are open — there's no default
-       instance to offer. */
+       instance to offer. Every chip is styled identically: unlike the
+       internal extension, no account here is "primary". */
     .instance-row {
       display: flex;
       flex-wrap: wrap;
@@ -303,21 +304,6 @@
       background: var(--surface-hover);
       border-color: var(--brand-accent);
       color: var(--brand-accent);
-    }
-
-    /* The first (most recently active) instance carries the emphasis —
-       one accent per view. */
-    .instance-chip.primary {
-      background: var(--brand);
-      border-color: var(--brand);
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .instance-chip.primary:hover {
-      background: var(--brand-accent);
-      border-color: var(--brand-accent);
-      color: #ffffff;
     }
 
     /* ── Options ── */

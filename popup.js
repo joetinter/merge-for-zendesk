@@ -117,19 +117,22 @@ async function createQuickAccessButtons() {
   const instances = Array.from(instanceMap.entries())
     .sort(([hostA], [hostB]) => hostA.localeCompare(hostB));
 
-  instances.forEach(([host, tab], index) => {
+  instances.forEach(([host, tab]) => {
     const label = host.replace('.zendesk.com', '');
-    const isPrimary = index === 0; // First chip carries the accent
 
-    const chip = createChip(label, tab, isPrimary);
+    const chip = createChip(label, tab);
     quickAccessContainer.appendChild(chip);
   });
 }
 
-/** Builds one instance chip that focuses its tab when clicked. */
-function createChip(label, tab, isPrimary) {
+/**
+ * Builds one instance chip that focuses its tab when clicked. Every chip is
+ * styled identically — unlike the internal extension, there's no primary
+ * instance here, so no chip should carry more visual weight than another.
+ */
+function createChip(label, tab) {
   const button = document.createElement('button');
-  button.className = isPrimary ? 'instance-chip primary' : 'instance-chip';
+  button.className = 'instance-chip';
   button.textContent = label;
   button.title = `Switch to ${label}`;
   button.setAttribute('aria-label', `Switch to ${label} tab`);

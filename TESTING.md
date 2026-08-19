@@ -191,7 +191,7 @@ account — substitute your real subdomain when testing.
 **Expected:**
 - No "Quick Access" group when no Zendesk tabs are open
 - One chip per open account, labeled by subdomain
-- The most recently active instance's chip is filled; the rest are outlined
+- Every chip is styled identically — none is visually emphasized over another
 - Clicking a chip focuses that tab and its window, then closes the popup
 
 ### Test 9: Multi-Window Support

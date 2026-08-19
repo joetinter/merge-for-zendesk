@@ -21,7 +21,7 @@ Works with any Zendesk account — `yourcompany.zendesk.com` — with no setup r
 ### 🚀 Quick Access
 - **Instance chips** — A compact row of chips, one per open Zendesk account
   - Each chip is labeled by subdomain (e.g. "acme" for `acme.zendesk.com`)
-  - The most recently active instance is the primary (filled); the rest are outlined
+  - Every chip is styled identically — no account is treated as primary
   - Only appears when you have Zendesk tabs open — nothing to show otherwise
   - Wraps to a second line rather than growing the popup, however many are open
   - Click a chip to jump straight to that tab, across any window
