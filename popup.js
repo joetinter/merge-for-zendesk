@@ -12,8 +12,18 @@ const quickAccessGroup = document.getElementById("quickAccessGroup");
 const quickAccessContainer = document.getElementById("quickAccessContainer");
 const versionLabel = document.getElementById("version");
 
-// Read the version from the manifest so the badge can't drift out of sync
-versionLabel.textContent = `v${chrome.runtime.getManifest().version}`;
+// Read the version from the manifest so the badge can't drift out of sync.
+// Trailing zero components (e.g. "1.0" -> "1") are dropped for display,
+// since there's no point release to distinguish yet.
+function formatVersion(version) {
+  const parts = version.split('.');
+  while (parts.length > 1 && parts[parts.length - 1] === '0') {
+    parts.pop();
+  }
+  return parts.join('.');
+}
+
+versionLabel.textContent = `v${formatVersion(chrome.runtime.getManifest().version)}`;
 
 // All checkboxes
 const checkboxes = {

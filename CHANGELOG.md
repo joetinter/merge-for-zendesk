@@ -4,7 +4,7 @@ All notable changes to Tab Merge for Zendesk will be documented in this file.
 
 ---
 
-## [1] - 2026-08-19
+## [1.0] - 2026-08-19
 
 Initial public release.
 

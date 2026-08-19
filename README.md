@@ -2,7 +2,7 @@
 
 A Chrome extension that automatically consolidates Zendesk tabs so you're never drowning in duplicates — no matter how many ticket, view, or search links you open throughout your day.
 
-**Version 1** • Chrome Manifest V3
+**Version 1.0** • Chrome Manifest V3
 
 ---
 
