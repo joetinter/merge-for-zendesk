@@ -229,7 +229,7 @@ chip appears per open account, labeled by subdomain.
 
 ### Files
 ```
-customer-tab-merge/
+merge-for-zendesk/
 ├── background.js        # Service worker with merge logic
 ├── popup.html           # Compact 300px settings UI (design tokens + dark mode)
 ├── popup.js             # Settings management
@@ -261,8 +261,8 @@ customer-tab-merge/
 
 ## Support
 
-- **Documentation:** [README.md](https://github.com/joetinter/customer-tab-merge)
-- **Issues:** [GitHub Issues](https://github.com/joetinter/customer-tab-merge/issues)
+- **Documentation:** [README.md](https://github.com/joetinter/merge-for-zendesk)
+- **Issues:** [GitHub Issues](https://github.com/joetinter/merge-for-zendesk/issues)
 - **Testing:** See `TESTING.md` for test cases
 
 ---

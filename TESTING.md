@@ -12,7 +12,7 @@ account — substitute your real subdomain when testing.
 1. Open Chrome and go to `chrome://extensions/`
 2. Enable "Developer mode" (toggle in top-right)
 3. Click "Load unpacked"
-4. Select the `customer-tab-merge` directory
+4. Select the `merge-for-zendesk` directory
 5. Extension should now appear with its current version
 
 ### Verify Installation
